@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/appWidgetBackgroundColor"
+    android:padding="@dimen/widget_margin"
+    android:theme="@style/ThemeOverlay.VolleyballScoreTracker.AppWidgetContainer">
+
+    <TextView
+        android:id="@+id/appwidget_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="2dp"
+        android:contentDescription="Match state"
+        android:text=""
+        android:textColor="?attr/appWidgetTextColor"
+        android:textSize="18sp" />
+
+    <Button
+        android:background="@drawable/home_score_button"
+        android:id="@+id/homeScore"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:textSize="50sp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toStartOf="@+id/appwidget_text"
+        android:text="0" />
+
+    <Button
+        android:id="@+id/awayScore"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@drawable/away_score_button"
+        android:textSize="50sp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toEndOf="@+id/appwidget_text"
+        android:text="0" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/homeScore"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_margin="8dp">
+        <TextView
+            android:id="@+id/homeSetTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Home name"
+            android:text="Home"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/appWidgetTextColor"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/homeSets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Home sets"
+            android:text="0"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:textColor="?attr/appWidgetTextColor"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_toEndOf="@id/awayScore"
+        android:orientation="vertical"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/awaySetTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Away name"
+            android:text="Away"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/appWidgetTextColor"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/awaySets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Away sets"
+            android:text="0"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textColor="?attr/appWidgetTextColor"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

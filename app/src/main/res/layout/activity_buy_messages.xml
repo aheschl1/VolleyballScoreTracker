@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BuyMessages">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="By purchasing Automatic Texts, you will be able to send text messages without leaving the app. Any purchase you make will remove ads."
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/howitworksbutton"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:text="How it works"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:drawableEndCompat="@drawable/collapse" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/how_it_works"
+        app:layout_constraintTop_toBottomOf="@+id/howitworksbutton">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="When you are online, messages will be sent from a server. This means that texts will be sent to whoever you want, from a number specific to this app."
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Each purchase gives you 100 automatic texts."
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Sign in to the same account to share messages across devices."
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:id="@+id/proUser"
+        app:layout_constraintTop_toBottomOf="@+id/how_it_works">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:text="You bought the pro version"
+            android:textColor="#000000"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Your first purchase will give you 200 messages! This is twice the amount someone without pro can purchase. After you make a purchase, you can uninstall the pro key and enjoy all benefits!"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:padding="8dp"
+        android:id="@+id/textsRemaining"
+        android:textStyle="bold"
+        android:text="You have 0 Automatic Texts"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/buy_texts" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buy_texts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Automatic Texts"
+
+        android:background="@drawable/buy_messages_button"
+
+        android:textSize="18sp"
+        android:textAllCaps="false"
+
+        android:textColor="#ffffff"
+
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/leftServeIndicator"
+            android:layout_width="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/left_arrow"
+            android:contentDescription="@string/leftserve" />
+
+        <ImageView
+            android:id="@+id/rightServeIndicator"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/right_arrow"
+            android:contentDescription="@string/rightserve" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        tools:ignore="NestedWeights"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/homeButtonLinear"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/homeTeamName"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:text="@string/home_team_name"/>
+
+            </HorizontalScrollView>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home_score_button"
+                android:id="@+id/homeScoreButtonsRelative">
+
+                <Button
+                    android:id="@+id/homeScore2"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_alignBottom="@+id/homeScore"
+                    android:text="@string/_0"
+                    android:textSize="100sp"
+                    android:textStyle="bold"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+                <Button
+                    android:id="@+id/homeScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:text="@string/_0"
+                    android:textSize="100sp"
+                    android:textStyle="bold"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:id="@+id/awayButtonLinear"
+            android:orientation="vertical">
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/awayTeamName"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:text="@string/away_team_name"/>
+
+            </HorizontalScrollView>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/away_score_button"
+                android:id="@+id/awayScoreButtonsRelative">
+
+                <Button
+                    android:id="@+id/awayScore2"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_alignBottom="@id/awayScore"
+                    android:text="@string/_0"
+                    android:textSize="100sp"
+                    android:textStyle="bold"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+                <Button
+                    android:id="@+id/awayScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:text="@string/_0"
+                    android:textSize="100sp"
+                    android:textStyle="bold"
+                    tools:ignore="ButtonStyle,NestedWeights" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@id/buttons"
+        android:id="@+id/bottomOfLayoutScroll"
+        android:layout_alignEnd="@id/buttons"
+        android:fillViewport="true"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/bottomOfLayout"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:id="@+id/bottomLeftView"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:id="@+id/homeTimeoutLinear"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/black_outline">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/to"
+                        android:textSize="15sp"
+                        android:textColor="#000000"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/homeTimeoutOne"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/homeTimeoutTwo"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/homeSets"
+                    android:background="@drawable/black_outline"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="#000000"
+                        android:text="@string/sets"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="6dp"
+                        android:textColor="@color/colorAccent"
+                        android:id="@+id/homeSetNumber"
+                        android:textStyle="bold"
+                        android:text="@string/_0"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/setNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/_0"
+                android:textColor="@color/colorAccent"
+                android:layout_weight="1"
+                android:textSize="30sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:id="@+id/bottomRightView"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/black_outline"
+                    android:id="@+id/awaySets">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="#000000"
+                        android:text="@string/sets"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="6dp"
+                        android:id="@+id/awaySetNumber"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:text="@string/_0"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:id="@+id/awayTimeoutLinear"
+                    android:background="@drawable/black_outline"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/to"
+                        android:textSize="15sp"
+                        android:textColor="#000000"/>
+
+                    <CheckBox
+                        android:id="@+id/awayTimeoutOne"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <CheckBox
+                        android:id="@+id/awayTimeoutTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:id="@+id/scoreLinear"
+        android:layout_below="@id/bottomOfLayoutScroll"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/colorAccent"
+            android:layout_gravity="center"
+            android:id="@+id/setOneHistoryView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/setTwoHistoryView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/setThreeHistoryView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/setFourHistoryView"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/setFiveHistoryView"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/playerInfoLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="64dp"
+        android:background="@drawable/black_outline"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/playerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/player_name"
+            android:textSize="20sp" />
+
+        <Switch
+            android:id="@+id/myPlayerOnOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_player_on_off_court"
+            android:textColor="#6F6F6F"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/sendOnOff"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:backgroundTint="#00000000"
+            app:srcCompat="@drawable/send_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
+        android:padding="9dp"
+        android:id="@+id/currentlyServing"
+        android:background="@drawable/black_outline"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/homeServer"
+            android:textSize="20sp"
+            android:text="Home"/>
+
+        <Switch
+            android:id="@+id/server"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/awayServer"
+            android:textSize="20sp"
+            android:text="Away"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:background="@drawable/popup"
+    tools:context="aheschl.volleyballscoretracker.EditNumbers">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_margin="15dp"
+        android:layout_gravity="center"
+        android:text="@string/phone_numbers"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/seperate_with_coma"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editNumbersField"
+        android:hint="@string/phone_numbers"
+        android:lines="1"
+        android:inputType="phone"
+        android:minLines="1"
+        android:gravity="top|start"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:layout_margin="8dp"/>
+
+
+    <Button
+        android:id="@+id/addContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/add_contact"
+        android:textAllCaps="false"
+        android:backgroundTint="#00000000"
+        android:layout_gravity="center"
+        android:contentDescription="@string/load_contact" />
+
+
+</LinearLayout>

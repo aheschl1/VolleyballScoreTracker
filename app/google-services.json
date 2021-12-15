@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "246834542009",
+    "project_id": "easy-volleyball-scorekeeper",
+    "storage_bucket": "easy-volleyball-scorekeeper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246834542009:android:62089334f0c6977944b268",
+        "android_client_info": {
+          "package_name": "aheschl.easyvolleyballscorekeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246834542009-i5fs7u89s1njesshfhv93it0g75aqjev.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "aheschl.easyvolleyballscorekeeper",
+            "certificate_hash": "d47d4cab028825232fd10b087bfeb472a62cc187"
+          }
+        },
+        {
+          "client_id": "246834542009-2111dh57hukovag2pl10fvpi3416d4o1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3ws6rAhSgSkmQf2UV7EvSlqD8uzH46Ds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246834542009-2111dh57hukovag2pl10fvpi3416d4o1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="how_do_i_text_from_within_the_app">How do I text from within the app?</string>
+    <string name="how_to_send">To send a text at any time in a match, you can click the send icon. You can see the icon to the right.</string>
+    <string name="edit_default_message">Edit default message</string>
+    <string name="how_to_edit_default">In settings you are able to edit the default text message. You can easily create your own custom outline for you text! When you click on the setting that is below, a popup appears. The message can be written with any text but you can also add variables. Variables let you put scores, set numbers and more into the text message. If you click the home score variable button, the home score will automatically be placed in the message where you want. Click below to edit you message.</string>
+    <string name="edit_phone_numbers_list">Edit phone numbers list</string>
+    <string name="how_to_edit_phone_num">To change the phone numbers that the text message is sent to you can go into settings and click the setting that is below. A popup will appear in which you will write the numbers. You can send texts to multiple numbers at once. You can separate numbers using a comma. Messages are not sent in a group chat. Click below to edit numbers.</string>
+    <string name="permissions">Permissions</string>
+    <string name="how_to_permissions">The first time you click the icon you will be prompted to allow a permission: Send and view SMS. This permission is required and you can not use the SMS feature without allowing it. Easy Volleyball Scorekeeper will not send a text without your actions. After allowing permission you can then click the icon again and the send text message dialog will appear.</string>
+    <string name="more_on_message_variables">More on message variables</string>
+    <string name="variable_explanations">Variables are a place holder for a game value. If the score of the volleyball match is 8–8 and you want your message outline to be able top put the home score in right away, variables will allow you to do that. In the text box you can type \"The home score is\" then click the button labeled SCORE in the home column. The message will automatically be filled in as \"The home score is 8\". Give it a try! You can see a preview in the popup so you can see your message as you experiment.</string>
+    <string name="automatically_text_without_confimation">Automatically text without confirmation</string>
+    <string name="text_without_popup_explained">If you want the text message to be sent automatically without a popup you can turn that on in settings. This allows messages to be sent faster and without interruption. The message will be sent to all the numbers you added in settings using your message outline. You can see and toggle the setting below</string>
+    <string name="arrow_explanation">The arrows above the scores indicate who is serving. The side that is being pointed to will be updated when one of the teams score. You can view the arrow to the right.</string>
+    <string name="what_are_the_arrows_for">What are the arrows for?</string>
+    <string name="edit_name_explanation">You can edit team names in settings or on the main screen. Just click the name of the team that you want to edit and a popup will appear in which you can change the name.</string>
+    <string name="how_do_i_view_the_current_set">How do I view the current set?</string>
+    <string name="what_set_explanation">The big green number under the score displays what set is currently being played.</string>
+    <string name="match_history_explanation">You can see the history of previous sets underneath everything. There is a list of all the sets in which the first number is the home teams score and the second is the away teams. You can only view the match history in portrait mode. Here is what it looks like: </string>
+</resources>
