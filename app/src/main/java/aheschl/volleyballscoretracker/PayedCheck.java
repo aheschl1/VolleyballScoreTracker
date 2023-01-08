@@ -11,7 +11,8 @@ class PayedCheck {
 
         PackageManager packageManager = context.getPackageManager();
         try {
-            return packageManager.getApplicationInfo(appPackageName, 0).enabled;
+            packageManager.getApplicationInfo(appPackageName, 0);
+            return true;
         }
         catch (PackageManager.NameNotFoundException e) {
             return false;
