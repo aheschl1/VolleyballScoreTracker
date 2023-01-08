@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private InterstitialAd mInterstitialAd;
     //ca-app-pub-3940256099942544/1033173712 test
     // ca-app-pub-5534964805685141~3781886939 real
-    private final String AD_ID = "ca-app-pub-3940256099942544/1033173712";
+    private final String AD_ID = "ca-app-pub-5534964805685141~3781886939";
 
     FirebaseDatabase database;
     FirebaseAuth mAuth;
