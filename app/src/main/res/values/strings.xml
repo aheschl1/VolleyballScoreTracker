@@ -71,7 +71,7 @@
     <string name="team_names">Team Names</string>
     <string name="game_type">Game Type</string>
     <string name="appearance">Appearance</string>
-    <string name="add_contact">Add Contact</string>
+    <string name="add_contact">Add a contact</string>
     <string name="load_contact">Load Contact</string>
     <string name="if_off_messages_will_be_sent_without_confirmation">If off messages will be sent without confirmation</string>
     <string name="post_set_message_outline">Post set message outline</string>

@@ -220,14 +220,14 @@ class MySharedPreferences {
         return mPrefs.getInt("setShowMessageForSideChange", Constants.ON);
     }
 
-    void setAutoText(int newValue) {
+    void setPostMatchText(int newValue) {
         SharedPreferences prefs = context.getSharedPreferences("setAutoText", 0);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("setAutoText", newValue);
         editor.apply();
     }
 
-    int getAutoText(){
+    int getPostMatchText(){
         SharedPreferences mPrefs = context.getSharedPreferences("setAutoText",0);
         return mPrefs.getInt("setAutoText", Constants.OFF);
     }
@@ -267,19 +267,6 @@ class MySharedPreferences {
         SharedPreferences mPrefs = context.getSharedPreferences("setAnimations",0);
         return mPrefs.getInt("setAnimations", Constants.ON);
     }
-
-    void setSMSPopup(int newValue) {
-        SharedPreferences prefs = context.getSharedPreferences("setSMSPopup", 0);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("setSMSPopup", newValue);
-        editor.apply();
-    }
-
-    int getSMSPopup(){
-        SharedPreferences mPrefs = context.getSharedPreferences("setSMSPopup",0);
-        return mPrefs.getInt("setSMSPopup", Constants.ON);
-    }
-
 
     void setServer(int newValue) {
         SharedPreferences prefs = context.getSharedPreferences("setServer", 0);
@@ -376,18 +363,6 @@ class MySharedPreferences {
     int getPlayerInfoOn(){
         SharedPreferences mPrefs = context.getSharedPreferences("setPlayerInfoOn",0);
         return mPrefs.getInt("setPlayerInfoOn", Constants.OFF);
-    }
-
-    void setAmazonMessageDismissed(boolean newValue) {
-        SharedPreferences prefs = context.getSharedPreferences("amazonM", 0);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("amazonM", newValue);
-        editor.apply();
-    }
-
-    boolean getAmazonMessageDismissed(){
-        SharedPreferences mPrefs = context.getSharedPreferences("amazonM",0);
-        return mPrefs.getBoolean("amazonM", false);
     }
 
 }

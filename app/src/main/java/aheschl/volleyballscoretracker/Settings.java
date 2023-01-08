@@ -1,5 +1,6 @@
 package aheschl.volleyballscoretracker;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +17,8 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import java.util.Objects;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -43,37 +46,23 @@ public class Settings extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
 
         mySharedPreferences = new MySharedPreferences(this);
 
         initTextOutline();
-
         initPostSetTextOutline();
-
         initVibrate();
-
         initNumbers();
-
         initSetNumber();
-
         initTieBreakerSettings();
-
         initEditNames();
-
         prepareActionBar();
-
-        initAutoText();
-
+        initPostMatchSMS();
         initNotifyAtEndOfSet();
-
         initAnimations();
-
-        initShowSMSPopup();
-
         initColors();
-
         initChangeVolleyballType();
-
         initPlayerInfo();
 
         AdView adView = findViewById(R.id.adView);
@@ -209,7 +198,6 @@ public class Settings extends AppCompatActivity {
     }
 
     private void awayColorDialog() {
-
         AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, mySharedPreferences.getAwayColor(), new AmbilWarnaDialog.OnAmbilWarnaListener(){
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color) {
@@ -217,33 +205,12 @@ public class Settings extends AppCompatActivity {
                 preview.setBackgroundColor(color);
                 mySharedPreferences.setAwayColor(color);
             }
-
             @Override
             public void onCancel(AmbilWarnaDialog dialog) {
                 // cancel was selected by the user
             }
         });
-
         dialog.show();
-
-    }
-
-    private void initShowSMSPopup() {
-
-        SwitchCompat smsPopup = findViewById(R.id.smsPopup);
-
-        if(mySharedPreferences.getSMSPopup() == Constants.ON){
-            smsPopup.setChecked(true);
-        }
-
-        smsPopup.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(b){
-                mySharedPreferences.setSMSPopup(Constants.ON);
-            }else{
-                mySharedPreferences.setSMSPopup(Constants.OFF);
-            }
-        });
-
     }
 
     private void initAnimations() {
@@ -267,7 +234,6 @@ public class Settings extends AppCompatActivity {
     }
 
     private void initNotifyAtEndOfSet() {
-
         SwitchCompat notifyAtEndOfSet = findViewById(R.id.notifyAtEndOfSet);
 
         if(mySharedPreferences.getNotifyAtEnd() == Constants.ON){
@@ -284,55 +250,39 @@ public class Settings extends AppCompatActivity {
 
     }
 
-    private void initAutoText() {
-
-        SwitchCompat autoText = findViewById(R.id.autoText);
-
-        if(mySharedPreferences.getAutoText() == Constants.ON){
-            autoText.setChecked(true);
+    private void initPostMatchSMS() {
+        SwitchCompat smsPost = findViewById(R.id.post_match_sms);
+        if(mySharedPreferences.getPostMatchText() == Constants.ON){
+            smsPost.setChecked(true);
         }
-
-        autoText.setOnCheckedChangeListener((compoundButton, b) -> {
+        smsPost.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b){
-                mySharedPreferences.setAutoText(Constants.ON);
+                mySharedPreferences.setPostMatchText(Constants.ON);
             }else{
-                mySharedPreferences.setAutoText(Constants.OFF);
+                mySharedPreferences.setPostMatchText(Constants.OFF);
             }
         });
-
     }
 
     private void initEditNames() {
-
        LinearLayout homeTeamNameLinear = findViewById(R.id.homeTeamNameLinear);
-
        homeTeamNameLinear.setOnClickListener(view -> {
            Intent i = new Intent(Settings.this, ChangeHomeTeamName.class);
-
            startActivity(i);
        });
-
        homeTeamName = findViewById(R.id.homeTeamName);
-
         LinearLayout awayTeamNameLinear = findViewById(R.id.awayTeamNameLinear);
-
         awayTeamNameLinear.setOnClickListener(view -> {
             Intent i = new Intent(Settings.this, ChangeAwayTeamName.class);
 
             startActivity(i);
         });
-
         awayTeamName = findViewById(R.id.awayTeamName);
-
-
     }
 
     private void initTieBreakerSettings() {
-
         SwitchCompat showMessageToChangeSides = findViewById(R.id.showMessageForSideSwitch);
-
         showMessageToChangeSides.setChecked(mySharedPreferences.getShowMessageForSideChange() == Constants.ON);
-
         showMessageToChangeSides.setOnCheckedChangeListener((compoundButton, isChecked) -> {
             if(isChecked){
                 mySharedPreferences.setShowMessageForSideChange(Constants.ON);
@@ -340,26 +290,16 @@ public class Settings extends AppCompatActivity {
                 mySharedPreferences.setShowMessageForSideChange(Constants.OFF);
             }
         });
-
         tieBreakerType = findViewById(R.id.tie_breaker_15);
         tieBreakerType.setChecked(mySharedPreferences.get15PointTieBreaker());
-
-        tieBreakerType.setOnCheckedChangeListener((compoundButton, b) -> {
-            mySharedPreferences.set15PointTieBreaker(b);
-        });
-
+        tieBreakerType.setOnCheckedChangeListener((compoundButton, b) -> mySharedPreferences.set15PointTieBreaker(b));
     }
 
     private void prepareActionBar() {
-
         ActionBar actionBar = getSupportActionBar();
-
         if (actionBar != null) {
-
             actionBar.setDisplayShowCustomEnabled(true);
-
         }
-
     }
 
     @Override
@@ -371,78 +311,44 @@ public class Settings extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_score_keeper:
-                Intent i = new Intent(Settings.this, MainActivity.class);
-                startActivity(i);
-                break;
-            default:
-                break;
+        if (item.getItemId() == R.id.action_score_keeper) {
+            Intent i = new Intent(Settings.this, MainActivity.class);
+            startActivity(i);
         }
-
         return true;
     }
 
     private void initSetNumber() {
-
         final CheckBox threeSets = findViewById(R.id.threeSets);
-
         final CheckBox fiveSets = findViewById(R.id.fiveSets);
-
         if(mySharedPreferences.gettNumberOfSets() == 3){
-
             threeSets.setChecked(true);
-
         }else{
-
             fiveSets.setChecked(true);
-
         }
-
         threeSets.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
             if(isChecked){
-
                 fiveSets.setChecked(false);
-
                 mySharedPreferences.setNumberOfSets(3);
-
                 resetGame();
-
             }else{
-
                 if(!fiveSets.isChecked()){
-
                     fiveSets.setChecked(true);
-
                 }
-
             }
-
         });
 
         fiveSets.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
             if(isChecked){
-
                 threeSets.setChecked(false);
-
                 mySharedPreferences.setNumberOfSets(5);
-
                 resetGame();
-
             }else{
-
                 if(!threeSets.isChecked()){
-
                     threeSets.setChecked(true);
-
                 }
-
             }
-
         });
-
     }
 
     private void resetGame() {
@@ -461,121 +367,88 @@ public class Settings extends AppCompatActivity {
         setHistoryShared.setThirdSetHistory("");
         setHistoryShared.setFourthSetHistory("");
         setHistoryShared.setFifthSetHistory("");
-
         deleteStream();
-
 
     }
 
     private void deleteStream(){
-
         StreamOnShared streamOnShared = new StreamOnShared(this);
-
         if(streamOnShared.getStreamOn() != null){
-
             Intent i = new Intent(this, DeleteStreamLater.class);
             i.putExtra("name", streamOnShared.getStreamOn());
             startService(i);
-
             streamOnShared.setStreamOn(null);
         }
     }
 
     private void initNumbers() {
-
         phoneNumbers = findViewById(R.id.phoneNumbers);
-
         phoneNumbers.setText(String.valueOf(mySharedPreferences.getNumbers()));
-
         LinearLayout numbersLinear = findViewById(R.id.phoneNumberLinear);
-
         numbersLinear.setOnClickListener(view -> {
             Intent i = new Intent(Settings.this, EditNumbers.class);
             startActivity(i);
         });
-
     }
 
     private void initVibrate() {
-
         SwitchCompat vibrateSwitch = findViewById(R.id.vibrateSwitch);
-
         if(mySharedPreferences.getVibrate() == Constants.ON){
             vibrateSwitch.setChecked(true);
         }
-
         vibrateSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
             if(isChecked){
                 mySharedPreferences.setVibrate(Constants.ON);
             }else{
                 mySharedPreferences.setVibrate(Constants.OFF);
             }
-
         });
-
     }
 
     private void initTextOutline() {
-
         textMessageOutlineText = findViewById(R.id.textMessageOutlineText);
-
         LinearLayout textOutlineLinearLayout = findViewById(R.id.linearLayoutTextOutline);
-
         textOutlineLinearLayout.setOnClickListener(view -> {
             Intent i = new Intent(Settings.this, EditSMS.class);
             startActivity(i);
         });
-
     }
 
     private void initPostSetTextOutline() {
-
         textMessageOutlineTextPostSet = findViewById(R.id.textMessageOutlineTextPostSet);
-
         LinearLayout textOutlineLinearLayoutPostSet = findViewById(R.id.linearLayoutTextOutlinePostSet);
-
         textOutlineLinearLayoutPostSet.setOnClickListener(view -> {
             Intent i = new Intent(Settings.this, EditSMSPostSet.class);
             startActivity(i);
         });
-
     }
-
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onResume() {
-
         if(mySharedPreferences.getSMSMessage().equals("")){
             textMessageOutlineText.setText("Click to set SMS outline");
         }else {
             textMessageOutlineText.setText(String.valueOf(mySharedPreferences.getSMSMessage()));
         }
-
         if(mySharedPreferences.getSMSMessagePostSet().equals("")){
             textMessageOutlineTextPostSet.setText("Click to set SMS outline");
         }else {
             textMessageOutlineTextPostSet.setText(String.valueOf(mySharedPreferences.getSMSMessagePostSet()));
         }
-
         if(mySharedPreferences.getNumbers().equals("")){
             phoneNumbers.setText("Click to add phone numbers");
         }else {
             phoneNumbers.setText(String.valueOf(mySharedPreferences.getNumbers()));
         }
-
         homeTeamName.setText(String.valueOf(mySharedPreferences.getHomeTeamName()));
-
         awayTeamName.setText(String.valueOf(mySharedPreferences.getAwayTeamName()));
-
         super.onResume();
     }
 
     @Override
     public void onBackPressed() {
-
         Intent i = new Intent(Settings.this, MainActivity.class);
         startActivity(i);
-
         super.onBackPressed();
     }
 

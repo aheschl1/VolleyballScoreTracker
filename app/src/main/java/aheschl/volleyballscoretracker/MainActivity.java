@@ -6,7 +6,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,18 +13,14 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.Telephony;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -36,18 +31,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
@@ -90,43 +85,33 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     LinearLayout awayButtonLinear;
     LinearLayout bottomLeftView;
     LinearLayout bottomRightView;
-
     TextView homeTeamName;
     TextView awayTeamName;
-
     TextView homeSetNumber;
     TextView awaySetNumber;
-
     GestureDetector awayButtonDetector;
     GestureDetector homeButtonDetector;
-
     ArrayList<String> undoHistory;
-
     Button awayScore2;
     Button homeButton2;
     Button homeButton;
     Button awayButton;
-
-
     Animation slideDownAway;
     Animation slideUpAway;
     Animation slideUpHome;
     Animation slideDownHome;
-
     TextView setNumber;
-
     VolleyballMatch VBMatch;
-
-    Switch myPlayer;
-    Switch serverSwitch;
-
+    SwitchCompat myPlayer;
     ImageButton textPlayerOnOff;
     EditText playerName;
 
-    private boolean serverSwitchListen = true;
     boolean timeoutsReversed = false;
 
     private InterstitialAd mInterstitialAd;
+    //ca-app-pub-3940256099942544/1033173712 test
+    // ca-app-pub-5534964805685141~3781886939 real
+    private final String AD_ID = "ca-app-pub-3940256099942544/1033173712";
 
     FirebaseDatabase database;
     FirebaseAuth mAuth;
@@ -137,24 +122,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MobileAds.initialize(this, "ca-app-pub-5534964805685141~3781886939");
+        MobileAds.initialize(this, initializationStatus -> initAdd());
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
-
         buttonsLayout = findViewById(R.id.buttons);
-
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
         mySharedPreferences = new MySharedPreferences(this);
         setHistoryShared = new SetHistoryShared(this);
         streamOnShared = new StreamOnShared(this);
-
         homeButtonIndex = mySharedPreferences.getHomeButtonIndex();
-
         undoHistory = new ArrayList<>();
-
         if(mySharedPreferences.getTypeOfVolleyball() == Constants.INDOOR) {
             VBMatch = new IndoorVolleyball();
         }else{
@@ -166,27 +145,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         initNameDisplay();
         initTimeouts();
         initScoreButtons();
-
-        initServerSwitch();
-
         prepareActionBar();
-
         initScores();
-
         initSwitchSides();
-
         initSetDisplay();
-
         initSetNumber();
-
         showSetHistory();
-
         initMyPlayerSwitch();
-
-        initAdd();
-
         checkForStreamBeingWatched();
-
     }
 
     private void checkForStreamBeingWatched() {
@@ -218,45 +184,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
     }
 
-
     private void initAdd() {
-
         if(!PayedCheck.installedPayedVersion(this)) {
-            mInterstitialAd = new InterstitialAd(this);
-            mInterstitialAd.setAdUnitId("ca-app-pub-5534964805685141/3439299675");
-            //ca-app-pub-5534964805685141/3439299675  test ca-app-pub-3940256099942544/1033173712
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-            mInterstitialAd.setAdListener(new AdListener() {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            InterstitialAd.load(MainActivity.this, AD_ID, adRequest, new InterstitialAdLoadCallback(){
                 @Override
-                public void onAdClosed() {
-                    // Load the next interstitial.
-                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                    mInterstitialAd = interstitialAd;
+                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                        @Override
+                        public void onAdDismissedFullScreenContent() {
+                            InterstitialAd.load(MainActivity.this, AD_ID, adRequest, new InterstitialAdLoadCallback(){
+                                @Override
+                                public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                                    mInterstitialAd = interstitialAd;
+                                }
+                            });
+                        }
+                    });
                 }
-
-            });
-        }
-
-    }
-
-    private void initServerSwitch() {
-
-        serverSwitch = findViewById(R.id.server);
-
-        if(serverSwitch!=null) {
-
-            serverSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
-                if (serverSwitchListen) {
-                    if (isChecked) {
-                        mySharedPreferences.setServer(Constants.AWAY);
-                    } else {
-                        mySharedPreferences.setServer(Constants.HOME);
-                    }
-
-                    setServer();
-                }
-
             });
         }
 
@@ -408,45 +354,22 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     void setServer() {
 
         if(mySharedPreferences.getServer() == Constants.HOME){
-
             if(homeButtonIndex == 0) {
                 rightIndicator.setVisibility(View.INVISIBLE);
-
                 leftIndicator.setVisibility(View.VISIBLE);
             }else{
-
                 rightIndicator.setVisibility(View.VISIBLE);
-
                 leftIndicator.setVisibility(View.INVISIBLE);
-
             }
-
-            serverSwitchListen = false;
-            if(serverSwitch != null){
-                serverSwitch.setChecked(false);
-            }
-            serverSwitchListen = true;
-
         }else if(mySharedPreferences.getServer() == Constants.AWAY){
 
             if(homeButtonIndex == 0) {
                 rightIndicator.setVisibility(View.VISIBLE);
-
                 leftIndicator.setVisibility(View.INVISIBLE);
             }else{
-
                 rightIndicator.setVisibility(View.INVISIBLE);
-
                 leftIndicator.setVisibility(View.VISIBLE);
-
             }
-
-            if(serverSwitch != null){
-                serverSwitch.setChecked(true);
-            }
-            serverSwitchListen = false;
-            serverSwitchListen = true;
-
         }
 
         updateStream(false, false);
@@ -454,11 +377,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     private void initSetNumber() {
-
         setNumber = findViewById(R.id.setNumber);
-
         setNumber.setText(String.valueOf(getSetNum()));
-
     }
 
     @Override
@@ -572,9 +492,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             mySharedPreferences.setAwaySetsWon(awaySets);
 
-            if(mySharedPreferences.getSMSPopup() == Constants.ON) {
-                sendText(getMessage(mySharedPreferences.getSMSMessagePostSet(), mySharedPreferences.getAwayTeamName(), Constants.SET));
-            }else{
+            if(mySharedPreferences.getPostMatchText() == Constants.ON) {
                 sendTextNoConfirmEndOfSet(Constants.SET, mySharedPreferences.getAwayTeamName());
             }
 
@@ -588,9 +506,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
             homeSetNumber.setText(String.valueOf(homeSets));
 
-            if(mySharedPreferences.getSMSPopup() == Constants.ON) {
-                sendText(getMessage(mySharedPreferences.getSMSMessagePostSet(), mySharedPreferences.getHomeTeamName(), Constants.SET));
-            }else{
+            if(mySharedPreferences.getPostMatchText() == Constants.ON) {
                 sendTextNoConfirmEndOfSet(Constants.SET, mySharedPreferences.getHomeTeamName());
             }
 
@@ -609,9 +525,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                         homeSetNumber.setText(String.valueOf(homeSets));
 
-                        if(mySharedPreferences.getSMSPopup() == Constants.ON) {
-                            sendText(mySharedPreferences.getHomeTeamName() + " won the set");
-                        }else{
+                        if(mySharedPreferences.getPostMatchText() == Constants.ON) {
                             sendTextNoConfirmEndOfSet(Constants.SET, mySharedPreferences.getHomeTeamName());
                         }
 
@@ -629,9 +543,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
                         awaySetNumber.setText(String.valueOf(awaySets));
 
-                        if(mySharedPreferences.getSMSPopup() == Constants.ON) {
-                            sendText(getMessage(mySharedPreferences.getSMSMessagePostSet(), mySharedPreferences.getAwayTeamName(), Constants.SET));
-                        }else{
+                        if(mySharedPreferences.getPostMatchText() == Constants.ON) {
                             sendTextNoConfirmEndOfSet(Constants.SET, mySharedPreferences.getAwayTeamName());
                         }
 
@@ -866,7 +778,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     void changeSides() {
-
         if(mySharedPreferences.getVibrate() == Constants.ON) {
             // Vibrate for 500 milliseconds
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -968,8 +879,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     }
 
-    //@TODO ldksjlkjl
-    private void sendIntent(String text, ArrayList nums){
+    private void sendIntent(String text, ArrayList<String> nums){
 
         String separator = "; ";
 
@@ -1013,162 +923,40 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         boolean hasTelephony = pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY);
 
         if(hasTelephony) {
-
             String messageOutline = String.valueOf(mySharedPreferences.getSMSMessage());
-
             String messageWithHome = messageOutline.replaceAll(Constants.HOME_SCORE, String.valueOf(VBMatch.getHomeScore()));
-
             String messageWithAway = messageWithHome.replaceAll(Constants.AWAY_SCORE, String.valueOf(VBMatch.getAwayScore()));
-
             int setNum = getSetNum();
-
             String messageWithSetNum = messageWithAway.replaceAll(Constants.SET, String.valueOf(setNum));
-
             int homeSetsWon = getHomeSets();
-
             int awaySetsWon = getAwaySets();
-
             final String messageWithHomeSets = messageWithSetNum.replaceAll(Constants.HOME_SETS, String.valueOf(homeSetsWon));
-
             final String messageWithAwaySets = messageWithHomeSets.replaceAll(Constants.AWAY_SETS, String.valueOf(awaySetsWon));
-
             final String messageWithHomeTeamName = messageWithAwaySets.replaceAll(Constants.HOME_TEAM_NAME, String.valueOf(mySharedPreferences.getHomeTeamName()));
-
             final String messageWithMyPlayer = messageWithHomeTeamName.replaceAll(Constants.MY_PLAYER, String.valueOf(mySharedPreferences.getMyPlayer()));
-
             final String messageWithMyPlayerName = messageWithMyPlayer.replaceAll(Constants.PLAYER_NAME, String.valueOf(mySharedPreferences.getMyPlayer()));
-
             final String message = messageWithMyPlayerName.replaceAll(Constants.AWAY_TEAM_NAME, String.valueOf(mySharedPreferences.getAwayTeamName()));
 
-            if(mySharedPreferences.getAutoText() == Constants.OFF ){
+            if (mySharedPreferences.getNumbers().length() > 0 && String.valueOf(mySharedPreferences.getSMSMessage()).length() > 0) {
+                ArrayList<String> numbers = new ArrayList<>(Arrays.asList(mySharedPreferences.getNumbers().split(", *")));
+                sendIntent(message, numbers);
+            } else {
+                if(mySharedPreferences.getNumbers().length() == 0) {
+                    Snackbar snackbar = Snackbar.make(bottomView, "Add at least one number.", Snackbar.LENGTH_LONG);
+                    snackbar.setAction("Settings", new OpenSettingsListener(this));
+                    snackbar.show();
+                }else{
+                    Snackbar snackbar = Snackbar.make(bottomView, "Build a message with at least one character.", Snackbar.LENGTH_LONG);
+                    snackbar.setAction("Settings", new OpenSettingsListener(this));
 
-                final LinearLayout numberLinear = new LinearLayout(this);
-
-                LinearLayout smsView = new LinearLayout(this);
-
-                smsView.setOrientation(LinearLayout.VERTICAL);
-
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                params.setMargins(8, 0, 8, 0);
-
-                numberLinear.setLayoutParams(params);
-
-                TextView text = new TextView(this);
-
-                LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-                textParams.setMargins(8, 0, 0, 0);
-
-                text.setLayoutParams(textParams);
-
-                text.setGravity(Gravity.CENTER);
-
-                text.setTextSize(17);
-
-                text.setTextColor(Color.BLACK);
-
-                text.setText(R.string.send_text_to);
-
-                numberLinear.addView(text);
-
-                final EditText numberField = new EditText(this);
-
-                numberField.setLayoutParams(params);
-
-                numberLinear.addView(numberField);
-
-                numberField.setInputType(InputType.TYPE_CLASS_PHONE);
-
-                numberField.setText(String.valueOf(mySharedPreferences.getNumbers()));
-
-
-                LinearLayout messageLinear = new LinearLayout(this);
-
-                messageLinear.setLayoutParams(params);
-
-                final EditText messageEditText = new EditText(this);
-
-
-                messageEditText.setText(message);
-
-                messageEditText.setLayoutParams(params);
-
-                messageLinear.addView(messageEditText);
-
-
-                smsView.addView(messageLinear);
-                smsView.addView(numberLinear);
-
-                new AlertDialog.Builder(this)
-                        .setTitle("Send Text Message")
-                        .setMessage("You can edit your message below. You can change the default message outline in settings. If you want texts to be sent without this popup you can turn it off in settings.")
-                        .setView(smsView)
-                        .setPositiveButton("Send", (dialog, whichButton) -> {
-
-                            mySharedPreferences.setNumbers(numberField.getText().toString());
-
-                            if (mySharedPreferences.getNumbers().length() > 0 && messageEditText.getText().toString().length() > 0) {
-
-                                ArrayList<String> numbers = new ArrayList<>(Arrays.asList(numberField.getText().toString().split(", *")));
-
-
-                                sendIntent(messageEditText.getText().toString(), numbers);
-
-                                Toast.makeText(MainActivity.this, "Text sent", Toast.LENGTH_SHORT).show();
-                            } else {
-
-                                if(mySharedPreferences.getNumbers().length() == 0) {
-
-                                    Toast.makeText(MainActivity.this, "Add at least one number and try again", Toast.LENGTH_LONG).show();
-
-                                }else{
-
-                                    Toast.makeText(MainActivity.this, "Please create a message with at least one character and try again", Toast.LENGTH_LONG).show();
-
-                                }
-
-                            }
-
-
-                        })
-
-                        .setNegativeButton(android.R.string.no, (dialog, which) -> mySharedPreferences.setNumbers(numberField.getText().toString())).show();
-            }else{
-
-                if (mySharedPreferences.getNumbers().length() > 0 && String.valueOf(mySharedPreferences.getSMSMessage()).length() > 0) {
-
-                    ArrayList<String> numbers = new ArrayList<>(Arrays.asList(String.valueOf(mySharedPreferences.getNumbers()).split(", *")));
-                    sendIntent(message, numbers);
-
-                    Toast.makeText(MainActivity.this, "Text sent", Toast.LENGTH_SHORT).show();
-
-                } else {
-
-                    if(mySharedPreferences.getNumbers().length() == 0) {
-
-                        Toast.makeText(MainActivity.this, "Add at least one number and try again", Toast.LENGTH_LONG).show();
-
-                        Intent i = new Intent(MainActivity.this, EditNumbers.class);
-
-                        startActivity(i);
-
-                    }else{
-
-                        Toast.makeText(MainActivity.this, "Please create a message with at least one character and try again", Toast.LENGTH_LONG).show();
-
-                        Intent i = new Intent(MainActivity.this, EditSMS.class);
-
-                        startActivity(i);
-
-                    }
+                    snackbar.show();
+                    Intent i = new Intent(MainActivity.this, EditSMS.class);
+                    startActivity(i);
                 }
-
             }
 
+
         }else{
-
-
             new AlertDialog.Builder(this)
                     .setTitle("Feature Unavailable")
                     .setMessage("You device does not seem to be able to send sms messages. If it can, you can contact the developer by emailing ajheschl@gmail.com " +
@@ -1180,114 +968,30 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     }
 
-    //@TODO change to intent
     private void sendText(String message) {
 
         PackageManager pm = this.getPackageManager();
         boolean hasTelephony = pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY);
-
         if(hasTelephony) {
-
-            final LinearLayout numberLinear = new LinearLayout(this);
-
-            LinearLayout smsView = new LinearLayout(this);
-
-            smsView.setOrientation(LinearLayout.VERTICAL);
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            params.setMargins(8, 0, 8, 0);
-
-            numberLinear.setLayoutParams(params);
-
-            TextView text = new TextView(this);
-
-            LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-            textParams.setMargins(8, 0, 0, 0);
-
-            text.setLayoutParams(textParams);
-
-            text.setGravity(Gravity.CENTER);
-
-            text.setTextSize(17);
-
-            text.setTextColor(Color.BLACK);
-
-            text.setText(R.string.send_text_to);
-
-            numberLinear.addView(text);
-
-            final EditText numberField = new EditText(this);
-
-            numberField.setLayoutParams(params);
-
-            numberLinear.addView(numberField);
-
-            numberField.setInputType(InputType.TYPE_CLASS_PHONE);
-
-            numberField.setText(String.valueOf(mySharedPreferences.getNumbers()));
-
-
-            LinearLayout messageLinear = new LinearLayout(this);
-
-            messageLinear.setLayoutParams(params);
-
-            final EditText messageEditText = new EditText(this);
-
-            messageEditText.setText(message);
-
-            messageEditText.setLayoutParams(params);
-
-            messageLinear.addView(messageEditText);
-
-
-            smsView.addView(messageLinear);
-            smsView.addView(numberLinear);
-
-            new AlertDialog.Builder(this)
-                    .setTitle("Send Text Message")
-                    .setMessage("You can stop this popup by turning it off in settings. You can edit your message below.")
-                    .setView(smsView)
-                    .setPositiveButton("Send", (dialog, whichButton) -> {
-
-                        mySharedPreferences.setNumbers(numberField.getText().toString());
-
-                        if (mySharedPreferences.getNumbers().length() > 0) {
-
-                            ArrayList<String> numbers = new ArrayList<>(Arrays.asList(numberField.getText().toString().split(", *")));
-
-
-                            sendIntent(messageEditText.getText().toString(), numbers);
-
-
-                            Toast.makeText(MainActivity.this, "Text sent", Toast.LENGTH_SHORT).show();
-                        } else {
-
-                            Toast.makeText(MainActivity.this, "Add at least one number and try again", Toast.LENGTH_LONG).show();
-
-                        }
-
-
-                    })
-
-                    .setNegativeButton(android.R.string.no, (dialog, which) -> mySharedPreferences.setNumbers(numberField.getText().toString())).show();
-
-        }else{
-
-
+            if (mySharedPreferences.getNumbers().length() > 0) {
+                ArrayList<String> numbers = new ArrayList<>(Arrays.asList(mySharedPreferences.getNumbers().split(", *")));
+                sendIntent(message, numbers);
+            } else {
+                Snackbar snackbar = Snackbar.make(bottomView, "Add at least one number.", Snackbar.LENGTH_LONG);
+                snackbar.setAction("Settings", new OpenSettingsListener(this));
+                snackbar.show();
+            }
+        }else {
             new AlertDialog.Builder(this)
                     .setTitle("Feature Unavailable")
                     .setMessage("You device does not seem to be able to send sms messages. If it can, you can contact the developer by emailing ajheschl@gmail.com " +
                             "to report this as an error")
                     .setPositiveButton("Ok", null)
                     .show();
-
         }
 
     }
 
-    //@TODO remove
     private void sendTextNoConfirmEndOfSet(String setOrMatch, String winningTeam){
 
         String messageOutline = String.valueOf(mySharedPreferences.getSMSMessagePostSet());
@@ -1306,12 +1010,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     for (String ignored : numbers) {
                         sendIntent(message, numbers);
                     }
-
-                    Toast.makeText(MainActivity.this, "Text sent", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    Toast.makeText(MainActivity.this, "Add at least one number and try again", Toast.LENGTH_LONG).show();
+                    Snackbar snackbar = Snackbar.make(bottomView, "Add at least one number in settings.", Snackbar.LENGTH_LONG);
+                    snackbar.setAction("Settings", new OpenSettingsListener(this));
 
+                    snackbar.show();
                 }
 
 
@@ -1350,10 +1054,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private void resetGame() {
 
         if(!PayedCheck.installedPayedVersion(this)){
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-            } else {
-                Log.d("TAG", "The interstitial wasn't loaded yet.");
+            if (mInterstitialAd != null) {
+                mInterstitialAd.show(this);
             }
         }
 
@@ -1659,31 +1361,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     .setMessage(mySharedPreferences.getAwayTeamName() + " won the match")
                     .setPositiveButton("Prepare new match", (dialog, which) -> {
 
-                        if(mySharedPreferences.getSMSPopup() == Constants.ON) {
-                            sendText(getMessage(mySharedPreferences.getSMSMessagePostSet(), mySharedPreferences.getAwayTeamName(), Constants.MATCH));
-                        }else{
+                        if(mySharedPreferences.getPostMatchText() == Constants.ON) {
                             sendTextNoConfirmEndOfSet(Constants.MATCH, mySharedPreferences.getAwayTeamName());
                         }
-
                         updateStream(false, true);
-
                         resetGame();
-
                     })
                     .setNegativeButton("Cancel", (dialog, which) -> {
 
                         if(mySharedPreferences.gettNumberOfSets() == 3){
-
                             awaySetNumber.setText("1");
-
                             mySharedPreferences.setAwaySetsWon(1);
-
                         }else{
-
                             awaySetNumber.setText("2");
-
                             mySharedPreferences.setAwaySetsWon(2);
-
                         }
                         updateStream(false, false);
 
@@ -1696,9 +1387,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     .setMessage(mySharedPreferences.getHomeTeamName() + " won the match!")
                     .setPositiveButton("Prepare new match", (dialog, which) -> {
 
-                        if(mySharedPreferences.getSMSPopup() == Constants.ON) {
-                            sendText(getMessage(mySharedPreferences.getSMSMessagePostSet(), mySharedPreferences.getHomeTeamName(), Constants.MATCH));
-                        }else{
+                        if(mySharedPreferences.getPostMatchText() == Constants.ON) {
                             sendTextNoConfirmEndOfSet(Constants.MATCH, mySharedPreferences.getHomeTeamName());
                         }
 
@@ -1762,7 +1451,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     
     }
 
-
     private void updateStream(boolean homeWon, boolean awayWon){
 
         int homeTimeoutsUsed = 0;
@@ -1818,5 +1506,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
     }
 
+}
 
+class OpenSettingsListener implements View.OnClickListener {
+    private final MainActivity context;
+    OpenSettingsListener(MainActivity context){
+        this.context = context;
+    }
+    @Override
+    public void onClick(View v) {
+        Intent i = new Intent(context, Settings.class);
+        context.startActivity(i);
+        context.finish();
+    }
 }

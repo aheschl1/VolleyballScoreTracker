@@ -6,21 +6,21 @@
     <item
         android:id="@+id/action_sms"
         android:orderInCategory="94"
-        android:icon="@drawable/send_text"
+        android:icon="@drawable/ic_baseline_chat_24"
         android:title="@string/send_sms"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_undo"
         android:orderInCategory="95"
-        android:icon="@drawable/undo"
+        android:icon="@drawable/ic_baseline_undo_24"
         android:title="@string/undo"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_switch_courts"
         android:orderInCategory="96"
-        android:icon="@drawable/reverse"
+        android:icon="@drawable/ic_baseline_swap_horiz_24"
         android:title="@string/change_courts"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
@@ -52,13 +52,6 @@
         android:orderInCategory="101"
         android:title="@string/rate_app">
     </item>
-
-    <!--<item
-        android:id="@+id/action_coffee"
-        android:orderInCategory="101"
-        android:title="@string/buy_me_a_coffee">
-    </item>-->
-
 
 
 

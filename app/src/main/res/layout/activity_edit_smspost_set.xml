@@ -11,16 +11,27 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:text="@string/message"/>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:textSize="22sp"
+                android:textColor="#000000"
+                android:text="Message outline"/>
+            <ImageButton
+                android:layout_weight="1"
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ffffff"
+                android:src="@drawable/ic_baseline_arrow_back_24"/>
+        </LinearLayout>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,28 +93,34 @@
                     <Button
                         android:id="@+id/homeScore"
                         android:textAllCaps="false"
-                        android:backgroundTint="#F1F1F1"
-                        android:layout_width="wrap_content"
+                        android:layout_margin="8dp"
+                        android:paddingStart="20dp"
+                        android:textColor="#ffffff"
+                        android:paddingEnd="20dp"
+                        android:backgroundTint="@color/colorPrimary"                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_margin="8dp"
                         android:text="@string/score" />
 
                     <Button
                         android:id="@+id/homeTeamName"
                         android:layout_width="wrap_content"
                         android:textAllCaps="false"
-                        android:backgroundTint="#F1F1F1"
-                        android:layout_height="wrap_content"
                         android:layout_margin="8dp"
+                        android:paddingStart="20dp"
+                        android:textColor="#ffffff"
+                        android:paddingEnd="20dp"
+                        android:backgroundTint="@color/colorPrimary"                        android:layout_height="wrap_content"
                         android:text="@string/team_name" />
 
                     <Button
                         android:id="@+id/home_sets"
                         android:layout_width="wrap_content"
                         android:textAllCaps="false"
-                        android:backgroundTint="#F1F1F1"
-                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:textColor="#ffffff"
+                        android:paddingEnd="20dp"
+                        android:backgroundTint="@color/colorPrimary"                           android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="8dp"
                         android:text="@string/sets_won" />
@@ -130,8 +147,10 @@
                         android:layout_width="wrap_content"
                         android:layout_gravity="center"
                         android:textAllCaps="false"
-                        android:backgroundTint="#F1F1F1"
-                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:textColor="#ffffff"
+                        android:paddingEnd="20dp"
+                        android:backgroundTint="@color/colorPrimary"                           android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:text="@string/score" />
 
@@ -140,8 +159,10 @@
                         android:id="@+id/awayTeamName"
                         android:layout_width="wrap_content"
                         android:textAllCaps="false"
-                        android:backgroundTint="#F1F1F1"
-                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:textColor="#ffffff"
+                        android:paddingEnd="20dp"
+                        android:backgroundTint="@color/colorPrimary"                           android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:text="@string/team_name" />
 
@@ -149,8 +170,10 @@
                         android:id="@+id/away_sets"
                         android:layout_width="wrap_content"
                         android:textAllCaps="false"
-                        android:backgroundTint="#F1F1F1"
-                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:textColor="#ffffff"
+                        android:paddingEnd="20dp"
+                        android:backgroundTint="@color/colorPrimary"                           android:layout_height="wrap_content"
                         android:layout_margin="8dp"
                         android:layout_gravity="center"
                         android:text="@string/sets_won" />
@@ -164,8 +187,10 @@
                 android:id="@+id/setOrMatch"
                 android:layout_width="wrap_content"
                 android:textAllCaps="false"
-                android:backgroundTint="#F1F1F1"
-                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:textColor="#ffffff"
+                android:paddingEnd="20dp"
+                android:backgroundTint="@color/colorPrimary"                   android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
                 android:text="Set or Match" />
@@ -173,22 +198,16 @@
                 android:id="@+id/winningTeam"
                 android:layout_width="wrap_content"
                 android:textAllCaps="false"
-                android:backgroundTint="#F1F1F1"
-                android:layout_marginTop="8dp"
+                android:paddingStart="20dp"
+                android:textColor="#ffffff"
+                android:paddingEnd="20dp"
+                android:backgroundTint="@color/colorPrimary"                   android:layout_marginTop="8dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Winning Team" />
 
         </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:id="@+id/save"
-            android:layout_gravity="end"
-            android:src="@drawable/save"
-            android:contentDescription="@string/save" />
 
 
     </LinearLayout>

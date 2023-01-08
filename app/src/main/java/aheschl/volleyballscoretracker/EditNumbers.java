@@ -8,13 +8,15 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.provider.ContactsContract;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.Objects;
 
@@ -24,20 +26,21 @@ public class EditNumbers extends AppCompatActivity {
 
     EditText numberField;
     private final int PICK_CONTACT = 999;
-
+    ImageButton close;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_numbers);
-
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         mySharedPreferences = new MySharedPreferences(this);
-
         initEditNumberField();
-
         initAddContact();
+        initClose();
+    }
 
+    private void initClose(){
+        close = findViewById(R.id.close);
+        close.setOnClickListener(view -> finish());
     }
 
     private void initAddContact() {
@@ -66,7 +69,6 @@ public class EditNumbers extends AppCompatActivity {
                             "Allow the permission and click the load contact button again.").setPositiveButton("Ok", (dialogInterface, i) ->
                     ActivityCompat.requestPermissions(EditNumbers.this, new String[]{Manifest.permission.READ_CONTACTS}, 101))
                     .show();
-
         }else {
             Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
             startActivityForResult(intent, PICK_CONTACT);
@@ -74,44 +76,36 @@ public class EditNumbers extends AppCompatActivity {
     }
 
     private void handleContactNumber(String number){
-
         String existingNumbers = String.valueOf(mySharedPreferences.getNumbers());
-
         if(existingNumbers.length() > 0) {
             existingNumbers = existingNumbers + ", " + number;
         }else{
             existingNumbers = existingNumbers + number;
         }
-
         mySharedPreferences.setNumbers(existingNumbers);
-
-        numberField.setText(String.valueOf(existingNumbers));
-
+        numberField.setText(existingNumbers);
     }
 
     @Override public void onActivityResult(int reqCode, int resultCode, Intent data){
 
         if (resultCode == RESULT_OK) {
-            switch (reqCode) {
-                case PICK_CONTACT:
+            if (reqCode == PICK_CONTACT) {
+                Uri result = data.getData();
+                String id = Objects.requireNonNull(result).getLastPathSegment();
 
-                    Uri result = data.getData();
-                    String id = Objects.requireNonNull(result).getLastPathSegment();
+                Cursor phones = getContentResolver().query(
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
+                        new String[]{id}, null);
 
-                    Cursor phones = getContentResolver().query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
-                            new String[]{id}, null);
+                if (Objects.requireNonNull(phones).moveToFirst()) {
 
-                    if(Objects.requireNonNull(phones).moveToFirst()){
+                    String number = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    handleContactNumber(number);
 
-                        String number = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        handleContactNumber(number);
+                }
 
-                    }
-
-                    phones.close();
-                    break;
+                phones.close();
             }
 
         }

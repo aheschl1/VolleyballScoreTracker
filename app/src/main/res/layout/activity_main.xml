@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_margin="8dp"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/left_arrow"
+            app:srcCompat="@drawable/ic_baseline_chevron_left_24"
             android:contentDescription="@string/leftserve" />
 
         <ImageView
@@ -29,7 +29,7 @@
             android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/right_arrow"
+            app:srcCompat="@drawable/ic_baseline_chevron_right_24"
             android:contentDescription="@string/rightserve" />
 
     </LinearLayout>
@@ -71,7 +71,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/home_score_button"
+                android:background="@drawable/score_button_drawable"
                 android:id="@+id/homeScoreButtonsRelative">
 
                 <Button
@@ -126,7 +126,7 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/away_score_button"
+                android:background="@drawable/score_button_drawable"
                 android:id="@+id/awayScoreButtonsRelative">
 
                 <Button
@@ -227,7 +227,6 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginBottom="2dp"
                         android:layout_marginEnd="6dp"
-                        android:textColor="@color/colorAccent"
                         android:id="@+id/homeSetNumber"
                         android:textStyle="bold"
                         android:text="@string/_0"/>
@@ -242,7 +241,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/_0"
-                android:textColor="@color/colorAccent"
                 android:layout_weight="1"
                 android:textSize="30sp" />
 
@@ -277,7 +275,6 @@
                         android:layout_marginBottom="2dp"
                         android:layout_marginEnd="6dp"
                         android:id="@+id/awaySetNumber"
-                        android:textColor="@color/colorAccent"
                         android:textStyle="bold"
                         android:text="@string/_0"/>
 
@@ -330,7 +327,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/colorAccent"
             android:layout_gravity="center"
             android:id="@+id/setOneHistoryView"/>
 
@@ -339,7 +335,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="15sp"
-            android:textColor="@color/colorAccent"
             android:id="@+id/setTwoHistoryView"/>
 
         <TextView
@@ -347,7 +342,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="15sp"
-            android:textColor="@color/colorAccent"
             android:id="@+id/setThreeHistoryView"/>
 
         <TextView
@@ -355,7 +349,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="15sp"
-            android:textColor="@color/colorAccent"
             android:id="@+id/setFourHistoryView"/>
 
         <TextView
@@ -363,7 +356,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="15sp"
-            android:textColor="@color/colorAccent"
             android:id="@+id/setFiveHistoryView"/>
 
     </LinearLayout>
@@ -380,7 +372,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:gravity="center_vertical"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/black_outline"
         android:orientation="horizontal">
 
@@ -392,12 +384,12 @@
             android:hint="@string/player_name"
             android:textSize="20sp" />
 
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/myPlayerOnOff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/my_player_on_off_court"
-            android:textColor="#6F6F6F"
+            android:textColor="#000000"
             android:textSize="20sp" />
 
         <ImageButton
@@ -407,43 +399,7 @@
             android:layout_gravity="end"
             android:layout_weight="1"
             android:backgroundTint="#00000000"
-            app:srcCompat="@drawable/send_text" />
+            app:srcCompat="@drawable/ic_baseline_chat_24" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="5dp"
-        android:padding="9dp"
-        android:id="@+id/currentlyServing"
-        android:background="@drawable/black_outline"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/homeServer"
-            android:textSize="20sp"
-            android:text="Home"/>
-
-        <Switch
-            android:id="@+id/server"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/awayServer"
-            android:textSize="20sp"
-            android:text="Away"/>
-
-    </LinearLayout>
-
 
 </RelativeLayout>

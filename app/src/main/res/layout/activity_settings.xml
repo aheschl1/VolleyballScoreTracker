@@ -15,13 +15,11 @@
         <com.google.android.gms.ads.AdView
             xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             ads:adSize="BANNER"
             ads:adUnitId="ca-app-pub-5534964805685141/9772580214">
         </com.google.android.gms.ads.AdView>
-
-        <!--id = ca-app-pub-5534964805685141/9772580214   trest ca-app-pub-3940256099942544/6300978111-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,8 +28,8 @@
             android:layout_margin="8dp"
             android:layout_gravity="center"
             android:drawablePadding="8dp"
-            android:drawableEnd="@drawable/send_text"
-            android:text="@string/sms"/>
+            android:text="@string/sms"
+            app:drawableEndCompat="@drawable/ic_baseline_chat_24" />
 
         <LinearLayout
             android:id="@+id/linearLayoutTextOutline"
@@ -65,7 +63,6 @@
                 android:gravity="end"
                 android:singleLine="true"
                 android:text="@string/default_sms_text_outline"
-                android:textColor="#000000"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -103,30 +100,6 @@
 
         </LinearLayout>
 
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/autoText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:text="@string/send_text_without_confirmation"
-            android:textColor="#838383"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            android:textColor="#000000"
-            android:text="@string/this_allows_texts_to_be_sent_faster_without_the_confirmation_dialog_if_this_is_on_text_messages_could_be_sent_accidentally"/>
-
-
         <Button
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -139,10 +112,33 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_gravity="center"
-            android:drawableEnd="@drawable/send_text"
             android:drawablePadding="8dp"
             android:text="@string/sms_post_set_match"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:drawableEndCompat="@drawable/ic_baseline_chat_24" />
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="15dp"
+                android:text="Enabled"
+                android:textSize="18sp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/post_match_sms"
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayoutTextOutlinePostSet"
@@ -180,27 +176,6 @@
                 android:textSize="15sp" />
 
         </LinearLayout>
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/smsPopup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/send_text_without_confirmation"
-            android:textColor="#838383"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            android:textColor="#000000"
-            android:text="@string/when_this_setting_is_on_texts_will_be_sent_automatically_at_the_end_of_sets_and_matches"/>
 
         <Button
             android:layout_width="match_parent"
@@ -553,7 +528,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:text="@string/show_player_on_off_court_switch"
-            android:textColor="#838383"
             android:textSize="18sp" />
 
         <TextView
@@ -574,7 +548,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:text="@string/prompt_to_switch_sides"
-            android:textColor="#838383"
             android:textSize="18sp" />
 
         <TextView
@@ -594,7 +567,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:text="@string/notify_at_end_of_set"
-            android:textColor="#838383"
             android:textSize="18sp" />
 
         <TextView
@@ -614,7 +586,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:text="@string/animations"
-            android:textColor="#838383"
             android:textSize="18sp" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -622,7 +593,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textColor="#838383"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"

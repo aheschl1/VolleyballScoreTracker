@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_score_keeper"
         android:orderInCategory="100"
-        android:icon="@drawable/back"
+        android:icon="@drawable/ic_baseline_arrow_back_24"
         android:title="@string/score_keeper"
         app:showAsAction="always" />
 

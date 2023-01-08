@@ -18,7 +18,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:background="@drawable/home_score_button"
+        android:background="@drawable/score_button_drawable"
         android:id="@+id/homeScore"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:background="@drawable/away_score_button"
+        android:background="@drawable/score_button_drawable"
         android:textSize="50sp"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
