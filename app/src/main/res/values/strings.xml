@@ -36,7 +36,7 @@
     <string name="score_keeper">Score Keeper</string>
     <string name="prompt_to_switch_sides">Prompt to switch sides</string>
     <string name="if_off_sides_will_be_changed_automatically">If off, sides will be changed automatically when a court switch should happen in the match.</string>
-    <string name="you_can_also_edit_team_names_by_clicking_them_in_the_main_page">You can also edit team names by clicking them in the main page</string>
+    <string name="you_can_also_edit_team_names_by_clicking_them_in_the_main_page">On the main page you can edit team names by clicking on them. You can change colors by long pressing the scores.</string>
     <string name="help">Help</string>
     <string name="message_preview">Message Preview</string>
     <string name="message">Message</string>

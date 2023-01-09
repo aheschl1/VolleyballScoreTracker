@@ -6,8 +6,8 @@ android {
         applicationId "aheschl.easyvolleyballscorekeeper"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 82
-        versionName '3.0'
+        versionCode 83
+        versionName '3.0.1'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -18,7 +18,7 @@ android {
     }
     productFlavors {
     }
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '30.0.3'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

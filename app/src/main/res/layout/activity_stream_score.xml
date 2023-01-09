@@ -14,7 +14,7 @@
         android:padding="8dp"
         android:id="@+id/textview1"
         android:textColor="#000000"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="sans-serif"
         android:text="Stream Score"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,7 +22,7 @@
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-thin"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:padding="8dp"
         android:text="Stream the score of the game live to anyone who can't be there! No need to sign up for an account."
@@ -106,7 +106,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:id="@+id/streamStatus"
             android:text="Stream not on"
@@ -122,6 +121,7 @@
             android:src="@drawable/share"
             android:layout_weight="0.25"
             android:layout_marginEnd="8dp"
+            android:layout_margin="8dp"
             android:background="@drawable/sharebutton"/>
 
     </LinearLayout>

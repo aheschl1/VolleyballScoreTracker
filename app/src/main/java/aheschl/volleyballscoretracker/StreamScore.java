@@ -1,12 +1,13 @@
 package aheschl.volleyballscoretracker;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,8 +26,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class StreamScore extends AppCompatActivity {
 
@@ -38,12 +42,15 @@ public class StreamScore extends AppCompatActivity {
     TextView streamStatus;
     ImageButton shareCode;
     StreamOnShared streamOnShared;
+    boolean reopen;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stream_score);
 
+        reopen = getIntent().getBooleanExtra("reopen", true);
         streamOnShared = new StreamOnShared(this);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -85,7 +92,6 @@ public class StreamScore extends AppCompatActivity {
                            if (task.isSuccessful()) {
                                startStream();
                            } else {
-                               Log.e("TAG", task.getException().toString());
                                Snackbar.make(streamScore, "Something went wrong", Snackbar.LENGTH_SHORT).show();
                            }
                        });
@@ -98,15 +104,37 @@ public class StreamScore extends AppCompatActivity {
            }
         });
 
-        watchStream.setOnClickListener((v)->{
+        if(streamOnShared.getStreamBeingWatched() == null){
+            watchStream.setOnClickListener((v)->{
 
-            if(isNetworkAvailable()){
-                startWatching();
-            }else{
-                Snackbar.make(streamScore, "You are not online", Snackbar.LENGTH_SHORT).show();
-            }
+                if(isNetworkAvailable()){
+                    startWatching();
+                }else{
+                    Snackbar.make(streamScore, "You are not online", Snackbar.LENGTH_SHORT).show();
+                }
 
-        });
+            });
+        }else{
+            watchStream.setText("Stop Spectating");
+            watchStream.setOnClickListener((v)->{
+                if(isNetworkAvailable()){
+                    streamOnShared.setStreamBeingWatched(null);
+                    watchStream.setText("Spectate");
+                    watchStream.setOnClickListener((w)->{
+
+                        if(isNetworkAvailable()){
+                            startWatching();
+                        }else{
+                            Snackbar.make(streamScore, "You are not online", Snackbar.LENGTH_SHORT).show();
+                        }
+
+                    });
+                }else{
+                    Snackbar.make(streamScore, "You are not online", Snackbar.LENGTH_SHORT).show();
+                }
+
+            });
+        }
 
         shareCode.setOnClickListener((v)->{
             if(streamOnShared.getStreamOn() != null){
@@ -122,9 +150,10 @@ public class StreamScore extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void startStream(){
         if(PayedCheck.installedPayedVersion(this)){
-            streamOnShared.setStreamOn(mAuth.getCurrentUser().getUid());
+            streamOnShared.setStreamOn(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
             streamStatus.setText("Stream code: " + streamOnShared.getStreamOn());
             streamScore.setText("End Stream");
             Snackbar.make(streamScore, "Stream Started", Snackbar.LENGTH_SHORT).show();
@@ -141,7 +170,6 @@ public class StreamScore extends AppCompatActivity {
     }
 
     private void checkForActiveStreamWatch() {
-        boolean reopen = getIntent().getBooleanExtra("reopen", true);
 
         if(streamOnShared.getStreamBeingWatched() != null && reopen){
 
@@ -175,7 +203,7 @@ public class StreamScore extends AppCompatActivity {
         lp.setMargins(50, 8, 16, 8);
         final EditText input = new EditText(this);
         input.setLayoutParams(lp);
-        input.setGravity(android.view.Gravity.TOP|android.view.Gravity.LEFT);
+        input.setGravity(android.view.Gravity.TOP| Gravity.START);
         input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES|InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         input.setLines(1);
         input.setMaxLines(1);
@@ -189,26 +217,31 @@ public class StreamScore extends AppCompatActivity {
                 .setPositiveButton("Join", (dialog, whichButton) -> {
                     
                     if(input.getText().length() > 0){
-                        String gameCode = input.getText().toString();
-
-                        database.getReference(gameCode).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(!snapshot.exists()){
-                                    Snackbar.make(streamScore, "This stream has not yet started", Snackbar.LENGTH_SHORT).show();
-                                }else{
-                                    streamOnShared.setStreamBeingWatched(gameCode);
-                                    Intent i = new Intent(StreamScore.this, WatchStream.class);
-                                    i.putExtra("stream_code", gameCode);
-                                    startActivity(i);
+                        String gameCode = input.getText().toString().trim();
+                        try{
+                            database.getReference(gameCode).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(!snapshot.exists()){
+                                        Snackbar.make(streamScore, "This stream has not yet started", Snackbar.LENGTH_SHORT).show();
+                                    }else{
+                                        streamOnShared.setStreamBeingWatched(gameCode);
+                                        Intent i = new Intent(StreamScore.this, WatchStream.class);
+                                        i.putExtra("stream_code", gameCode);
+                                        startActivity(i);
+                                        finish();
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
+                                }
+                            });
+                        }catch(DatabaseException e){
+                            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                        }
+
                     }else{
                         Toast.makeText(this, "Enter at least one character", Toast.LENGTH_SHORT).show();
                     }
@@ -253,11 +286,7 @@ public class StreamScore extends AppCompatActivity {
         ConnectivityManager manager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        boolean isAvailable = false;
-        if (networkInfo != null && networkInfo.isConnected()) {
-            // Network is present and connected
-            isAvailable = true;
-        }
-        return isAvailable;
+        // Network is present and connected
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

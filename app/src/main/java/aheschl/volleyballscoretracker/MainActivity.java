@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                         Snackbar.make(homeButton2, "The stream you were watching is finished", Snackbar.LENGTH_SHORT).show();
                         streamOnShared.setStreamBeingWatched(null);
                     }else{
-                        Snackbar snackbar = Snackbar.make(homeButton2, "Do you want to resume spectating?", Snackbar.LENGTH_SHORT);
+                        Snackbar snackbar = Snackbar.make(homeButton2, "Do you want to resume spectating?", Snackbar.LENGTH_LONG);
                         snackbar.setAction("YES", view -> {
                             Intent i = new Intent(MainActivity.this, WatchStream.class);
                             i.putExtra("stream_code", streamOnShared.getStreamBeingWatched());
